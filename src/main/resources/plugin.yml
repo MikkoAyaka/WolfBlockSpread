@@ -1,0 +1,9 @@
+name: WolfBlockSpread
+version: '${project.version}'
+main: org.wolflink.minecraft.bukkit.wolfblockspread.WolfBlockSpread
+api-version: 1.18
+authors: [ MikkoAyaka ]
+commands:
+  wolfblockspread:
+    aliases:
+      - wbs
