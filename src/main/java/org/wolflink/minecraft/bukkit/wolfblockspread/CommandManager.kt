@@ -12,7 +12,6 @@ import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabCompleter
 import org.bukkit.entity.Player
-import org.wolflink.minecraft.bukkit.wolfblockspread.temp.PotionListener
 import org.wolflink.minecraft.bukkit.wolfblockspread.workers.SSWorker
 import org.wolflink.minecraft.bukkit.wolfblockspread.workers.SmartSSWorker
 import java.util.*
@@ -130,12 +129,6 @@ object CommandManager : CommandExecutor,TabCompleter {
                     if(worker is SmartSSWorker)
                     sender.sendMessage("§7${index++} §f${worker.aiData.count}§7个 §f${worker.aiData.survivalPoints.toInt()}§e资源点")
                 }
-                return true
-            }
-            "potionblock" -> {
-                if(sender !is Player)return false
-                PotionListener.potionBlockMat = sender.inventory.itemInMainHand.type
-                sender.sendMessage("设置成功")
                 return true
             }
             "chatclear" -> {
