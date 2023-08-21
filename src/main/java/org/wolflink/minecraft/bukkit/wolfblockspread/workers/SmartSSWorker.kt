@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.ThreadLocalRandom
 import kotlin.math.roundToInt
 
-class SmartSSWorker(blueprint: SpreadBlueprint, args : List<String>) : SpreadWorker(blueprint,args)  {
+class SmartSSWorker(workerId: Int,blueprint: SpreadBlueprint, args : List<String>) : SpreadWorker(workerId,blueprint,args)  {
     val aiData : AICombatData = AICombatData()
     val banDirection = mutableListOf<BlockFace>()
     init {
@@ -50,7 +50,7 @@ class SmartSSWorker(blueprint: SpreadBlueprint, args : List<String>) : SpreadWor
             }
             val stopTime = Calendar.getInstance().timeInMillis
             Bukkit.getLogger().info("SmartSSWorker 任务已完成，用时 ${(stopTime-startTime)/1000} 秒")
-            SpreadManager.workerList.remove(this@SmartSSWorker)
+            SpreadManager.workerList.remove(workerId)
         }
     }
     private fun spread()

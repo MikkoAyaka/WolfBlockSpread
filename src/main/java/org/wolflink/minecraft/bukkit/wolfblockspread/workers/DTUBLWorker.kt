@@ -12,7 +12,7 @@ import org.wolflink.minecraft.bukkit.wolfblockspread.WolfBlockSpread
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
-class DTUBLWorker(blueprint: SpreadBlueprint,args : List<String>) : SpreadWorker(blueprint,args) {
+class DTUBLWorker(workerId: Int,blueprint: SpreadBlueprint,args : List<String>) : SpreadWorker(workerId,blueprint,args) {
     private val map = ConcurrentHashMap<Pair<Int,Int>,Int>()
 
     private val nullBlockList = mutableListOf(Material.AIR, Material.CAVE_AIR, Material.VOID_AIR)
@@ -57,7 +57,7 @@ class DTUBLWorker(blueprint: SpreadBlueprint,args : List<String>) : SpreadWorker
             }
             val stopTime = Calendar.getInstance().timeInMillis
             Bukkit.getLogger().info("DTUBLWorker 任务已完成，用时 ${(stopTime-startTime)/1000} 秒")
-            SpreadManager.workerList.remove(this@DTUBLWorker)
+            SpreadManager.workerList.remove(workerId)
         }
     }
 }

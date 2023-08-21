@@ -16,7 +16,7 @@ object AICombatManager {
         workerList.clear()
         for (entry in siteMap) {
             val id = SpreadManager.newWorker(entry.value, entry.key, args)
-            val spreadWorker = SpreadManager.workerList.getOrNull(id) ?: continue
+            val spreadWorker = SpreadManager.workerList[id] ?: continue
             workerList.add(spreadWorker)
         }
     }

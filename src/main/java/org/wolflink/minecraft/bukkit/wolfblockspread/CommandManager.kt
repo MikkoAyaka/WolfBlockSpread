@@ -30,7 +30,7 @@ object CommandManager : CommandExecutor,TabCompleter {
                     val type = SpreadType.valueOf(args.getOrNull(1)?:return false)
                     val distance = args.getOrNull(2)?.toIntOrNull() ?: return false
                     val time = args.getOrNull(3)?.toIntOrNull() ?: return false
-                    val id =SpreadManager.newBlueprint(sender.inventory.itemInMainHand.type,type,distance,time)
+                    val id = WolfBlockSpreadAPI.create(sender.inventory.itemInMainHand.type,type,distance,time)
                     sender.sendMessage("§7[ §bWolfBlockSpread §7] §a新的蓝图已创建 §fID $id")
                     return true
                 }else return false
@@ -53,8 +53,8 @@ object CommandManager : CommandExecutor,TabCompleter {
                 val id = args.getOrNull(1)?.toIntOrNull() ?: return false
                 if(sender !is Player)return false
                 val arguments = args.toCollection(mutableListOf())
-                SpreadManager.newWorker(id,sender.location.add(0.0,-1.0,0.0),arguments)
-                sender.sendMessage("§7[ §bWolfBlockSpread §7] §a新的任务已开始 §fID $id")
+                val taskId = WolfBlockSpreadAPI.start(id,sender.location.add(0.0,-1.0,0.0))
+                sender.sendMessage("§7[ §bWolfBlockSpread §7] §a新的任务已开始 §f任务ID $taskId")
                 return true
             }
             "addai" -> {
@@ -72,7 +72,7 @@ object CommandManager : CommandExecutor,TabCompleter {
             "stop" -> {
                 val id = args.getOrNull(1)?.toIntOrNull() ?: return false
                 if(sender !is Player)return false
-                SpreadManager.workerList[id].stop()
+                SpreadManager.workerList[id]?.stop()
                 sender.sendMessage("§7[ §bWolfBlockSpread §7] §c任务已终止 §fID $id")
                 return true
             }
@@ -84,7 +84,7 @@ object CommandManager : CommandExecutor,TabCompleter {
             "pause" -> {
                 val id = args.getOrNull(1)?.toIntOrNull() ?: return false
                 if(sender !is Player)return false
-                SpreadManager.workerList[id].pauseTask()
+                SpreadManager.workerList[id]?.pauseTask()
                 sender.sendMessage("§7[ §bWolfBlockSpread §7] §e任务已暂停 §fID $id")
                 return true
             }
@@ -96,7 +96,7 @@ object CommandManager : CommandExecutor,TabCompleter {
             "continue" -> {
                 val id = args.getOrNull(1)?.toIntOrNull() ?: return false
                 if(sender !is Player)return false
-                SpreadManager.workerList[id].continueTask()
+                SpreadManager.workerList[id]?.continueTask()
                 sender.sendMessage("§7[ §bWolfBlockSpread §7] §a任务已继续 §fID $id")
                 return true
             }
@@ -115,7 +115,7 @@ object CommandManager : CommandExecutor,TabCompleter {
                 }
                 sender.sendMessage("§7[ §a任务 §7]")
                 index = 0
-                for (worker in SpreadManager.workerList)
+                for (worker in SpreadManager.workerList.values)
                 {
                     sender.sendMessage("${index++} ${worker::class.simpleName} P-${worker.paused} C-${worker.cancelled}")
                 }

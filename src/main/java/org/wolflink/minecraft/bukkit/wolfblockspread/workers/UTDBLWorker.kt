@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentMap
 import kotlin.math.round
 import kotlin.math.roundToInt
 
-class UTDBLWorker(blueprint: SpreadBlueprint,args : List<String>) : SpreadWorker(blueprint,args) {
+class UTDBLWorker(workerId: Int,blueprint: SpreadBlueprint,args : List<String>) : SpreadWorker(workerId,blueprint,args) {
 
     private val map = ConcurrentHashMap<Pair<Int,Int>,Int>()
 
@@ -63,7 +63,7 @@ class UTDBLWorker(blueprint: SpreadBlueprint,args : List<String>) : SpreadWorker
             }
             val stopTime = Calendar.getInstance().timeInMillis
             Bukkit.getLogger().info("UTDBLWorker 任务已完成，用时 ${(stopTime-startTime)/1000} 秒")
-            SpreadManager.workerList.remove(this@UTDBLWorker)
+            SpreadManager.workerList.remove(workerId)
         }
     }
 }

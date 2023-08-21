@@ -15,7 +15,7 @@ import java.util.*
 import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.ThreadLocalRandom
 
-class SSWorker(blueprint: SpreadBlueprint,args : List<String>) : SpreadWorker(blueprint,args) {
+class SSWorker(workerId: Int,blueprint: SpreadBlueprint,args : List<String>) : SpreadWorker(workerId,blueprint,args) {
 
     companion object{
         val nullBlockMats = mutableListOf(Material.AIR,Material.VOID_AIR,Material.CAVE_AIR,Material.GRASS,Material.WATER,Material.LAVA)
@@ -56,7 +56,7 @@ class SSWorker(blueprint: SpreadBlueprint,args : List<String>) : SpreadWorker(bl
             }
             val stopTime = Calendar.getInstance().timeInMillis
             Bukkit.getLogger().info("SSWorker 任务已完成，用时 ${(stopTime-startTime)/1000} 秒")
-            SpreadManager.workerList.remove(this@SSWorker)
+            SpreadManager.workerList.remove(workerId)
         }
     }
     private fun spread()

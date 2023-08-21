@@ -11,7 +11,7 @@ import org.wolflink.minecraft.bukkit.wolfblockspread.SpreadManager
 import org.wolflink.minecraft.bukkit.wolfblockspread.WolfBlockSpread
 import java.util.*
 
-class RETCSWorker(blueprint: SpreadBlueprint,args : List<String>) : SpreadWorker(blueprint,args) {
+class RETCSWorker(workerId: Int,blueprint: SpreadBlueprint,args : List<String>) : SpreadWorker(workerId,blueprint,args) {
     private val blockData = blueprint.mat.createBlockData()
     val minY = -64
     override fun start(center: Location) {
@@ -45,7 +45,7 @@ class RETCSWorker(blueprint: SpreadBlueprint,args : List<String>) : SpreadWorker
             Bukkit.getScheduler().runTask(WolfBlockSpread.INSTANCE, Runnable { world.setBlockData(centerX,y,centerZ,blockData) })
             val stopTime = Calendar.getInstance().timeInMillis
             Bukkit.getLogger().info("UTDBLWorker 任务已完成，用时 ${(stopTime-startTime)/1000} 秒")
-            SpreadManager.workerList.remove(this@RETCSWorker)
+            SpreadManager.workerList.remove(workerId)
         }
     }
     fun setBlockInLineX(world : World,x : Int,z1 : Int,z2 : Int)
