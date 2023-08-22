@@ -38,7 +38,9 @@ class SSWorker(workerId: Int,blueprint: SpreadBlueprint,args : List<String>) : S
     override fun start(center: Location) {
 
         spreadBlocks.add(center.world?.getBlockAt(center) ?: return)
-        center.block.type = blueprint.mat
+        Bukkit.getScheduler().runTask(WolfBlockSpread.INSTANCE, Runnable {
+            center.block.type = blueprint.mat
+        })
         val startTime = Calendar.getInstance().timeInMillis
         val count = blueprint.distance
         val delayTime = blueprint.time.toDouble() / count
